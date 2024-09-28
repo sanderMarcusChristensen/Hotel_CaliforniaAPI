@@ -18,7 +18,8 @@ public class RoomDTO {
     // Convert from Entity to DTO
     public RoomDTO(Room room) {
         this.id = room.getId();
-        this.hotelId = room.getHotelId() != null ? room.getHotelId().getId() : null;
+        // // Take the ID from the hotel the room belongs to and set it on the room; set to null if no Hotel is linked.
+        this.hotelId = room.getHotel() != null ? room.getHotel().getId() : null;
         this.number = room.getNumber();
         this.price = room.getPrice();
     }

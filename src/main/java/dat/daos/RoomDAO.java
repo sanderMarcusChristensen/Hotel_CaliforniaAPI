@@ -50,18 +50,30 @@ public class RoomDAO implements IDAO<RoomDTO> {
 
     @Override
     public RoomDTO create(RoomDTO roomDTO) {
-        Room room = new Room(roomDTO);
-
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin(); // Start transaction
+
+            // Find the associated hotel using the hotelId from roomDTO
+            Hotel hotel = em.find(Hotel.class, roomDTO.getHotelId());
+
+            if (hotel == null) {
+                throw new IllegalArgumentException("Hotel with ID " + roomDTO.getHotelId() + " not found.");
+            }
+
+            // Create the Room entity with the hotel reference
+            Room room = new Room(roomDTO, hotel);
+
+            // Persist the room entity
             em.persist(room);
             em.getTransaction().commit(); // Commit transaction
-            return new RoomDTO(room);
+
+            return new RoomDTO(room); // Return the newly created RoomDTO
         } catch (Exception e) {
             e.printStackTrace();
             return null; // Handle transaction rollback
         }
     }
+
 
     @Override
     public RoomDTO update(RoomDTO roomDTO) {
@@ -80,7 +92,7 @@ public class RoomDAO implements IDAO<RoomDTO> {
 
                 if (roomDTO.getHotelId() != null) {
                     Hotel hotel = em.find(Hotel.class, roomDTO.getHotelId());
-                    foundRoom.setHotelId(hotel);
+                    foundRoom.setHotel(hotel);
                 }
 
                 em.getTransaction().commit();

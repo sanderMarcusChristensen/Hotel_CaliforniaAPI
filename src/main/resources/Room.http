@@ -1,1 +1,36 @@
-GET http://localhost:7777/api/room
+#g Get all rooms
+GET http://localhost:7777/api/room/1
+
+###
+
+#Get room by id : "http://localhost:7777/api/room/1"
+GET {{URL}}
+#Look in the http-client.json fil
+
+###
+
+#create rooms
+POST http://localhost:7777/api/room
+Content-Type: application/json
+
+{
+  "hotelId": 1,
+  "number": 7,
+  "price": 1100
+}
+
+###
+
+# updat
+PUT http://localhost:7777/api/room/1
+Content-Type: application/json
+
+{
+  "hotelId": 1,
+  "number": 9,
+  "price": 1300
+}
+###
+
+#deleting a hotel by id
+DELETE {{URL}}

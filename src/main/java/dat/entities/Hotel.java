@@ -24,23 +24,20 @@ public class Hotel {
 
     private String address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
     // Constructor for creating Hotel from HotelDTO
     public Hotel(HotelDTO hotelDTO) {
         this.name = hotelDTO.getName();
         this.address = hotelDTO.getAddress();
-
         for (RoomDTO roomDTO : hotelDTO.getRooms()) {
-            Room room = new Room(roomDTO);
-            room.setHotelId(this); // Set back-reference
-            rooms.add(room);
+            addRoom(new Room(roomDTO, this)); // Use the addRoom method
         }
     }
 
     public void addRoom(Room room) {
         rooms.add(room);
-        room.setHotelId(this); // Set back-reference
+        room.setHotel(this); // Set back-reference
     }
 }

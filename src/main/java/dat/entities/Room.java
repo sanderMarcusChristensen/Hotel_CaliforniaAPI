@@ -16,18 +16,19 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
 
-    @ManyToOne()
+    //// Links this room to a hotel; the hotel details are loaded only when needed.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id", nullable = false)
-    private Hotel hotelId;
+    private Hotel hotel;
 
     private int number;
 
     private int price;
 
     // Constructor for creating Room from RoomDTO
-    public Room(RoomDTO roomDTO) {
+    public Room(RoomDTO roomDTO, Hotel hotel) {
         this.number = roomDTO.getNumber();
         this.price = roomDTO.getPrice();
-        //this.hotelId = hot
+        this.hotel = hotel;
     }
 }

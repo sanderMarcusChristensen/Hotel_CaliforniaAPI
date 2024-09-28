@@ -58,6 +58,7 @@ public class HotelController implements Controller {
                 ctx.status(400).result("Hotel creation failed");
             }
         } catch (Exception e) {
+            e.printStackTrace(); // Log the exception stack trace
             ctx.status(500).result("An error occurred while creating the hotel: " + e.getMessage());
         }
     }

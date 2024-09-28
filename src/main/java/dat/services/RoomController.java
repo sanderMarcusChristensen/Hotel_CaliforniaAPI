@@ -87,7 +87,6 @@ public class RoomController implements Controller {
     public void delete(Context ctx) {
 
         try {
-
             Long id = Long.parseLong(ctx.pathParam("id")); // Extract ID from the path
 
             RoomDTO dto = new RoomDTO(); // Create a HotelDTO for deletion
