@@ -3,7 +3,7 @@ package dat.services;
 import dat.config.HibernateConfig;
 import dat.daos.HotelDAO;
 import dat.dto.HotelDTO;
-import dat.services.Controller;
+
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -11,8 +11,12 @@ import java.util.Set;
 
 public class HotelController implements Controller {
 
-    EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("hotel");
-    private final HotelDAO dao = new HotelDAO(emf);
+    private final EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("hotel");
+    private HotelDAO dao;
+
+    public HotelController(HotelDAO dao){
+        this.dao = dao;
+    }
 
 
     @Override

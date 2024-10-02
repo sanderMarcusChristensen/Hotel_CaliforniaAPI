@@ -11,9 +11,12 @@ import java.util.Set;
 public class RoomController implements Controller {
 
     EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("hotel");
-    private final RoomDAO dao = new RoomDAO(emf);
+    private final RoomDAO dao;
 
+    public RoomController(RoomDAO dao){
 
+        this.dao = dao;
+    }
 
     @Override
     public void getAll(Context ctx) {

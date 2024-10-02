@@ -11,6 +11,9 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.util.Properties;
 
+import static dat.util.ApiProperties.DB_PASS;
+import static dat.util.ApiProperties.DB_USER;
+
 /**
  * Purpose: This class is used to configure Hibernate and create an EntityManagerFactory.
  * Author: Thomas Hartmann
@@ -92,8 +95,8 @@ public class HibernateConfig {
 
     private static Properties setDevProperties(Properties props, String DBName) {
         props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
-        props.put("hibernate.connection.username", "postgres");
-        props.put("hibernate.connection.password", "postgres");
+        props.put("hibernate.connection.username", DB_USER);
+        props.put("hibernate.connection.password",DB_PASS );
         return props;
     }
 
@@ -101,8 +104,8 @@ public class HibernateConfig {
 //        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.connection.driver_class", "org.testcontainers.jdbc.ContainerDatabaseDriver");
         props.put("hibernate.connection.url", "jdbc:tc:postgresql:15.3-alpine3.18:///test_db");
-        props.put("hibernate.connection.username", "postgres");
-        props.put("hibernate.connection.password", "postgres");
+        props.put("hibernate.connection.username", DB_USER);
+        props.put("hibernate.connection.password", DB_PASS);
         props.put("hibernate.archive.autodetection", "class");
         props.put("hibernate.show_sql", "true");
         props.put("hibernate.hbm2ddl.auto", "create-drop");

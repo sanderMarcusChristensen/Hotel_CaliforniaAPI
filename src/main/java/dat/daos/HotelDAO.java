@@ -41,6 +41,7 @@ public class HotelDAO implements IDAO<HotelDTO> {
         return null;
     }
 
+
     @Override
     public HotelDTO getById(Long id) {
         try (EntityManager em = emf.createEntityManager()) {
