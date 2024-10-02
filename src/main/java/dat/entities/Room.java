@@ -2,6 +2,7 @@ package dat.entities;
 
 import dat.dto.RoomDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,14 +22,16 @@ public class Room {
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-    private int number;
+    @Column(name ="room_number")
+    private Integer number;
 
-    private int price;
+    private Double price;
 
-    // Constructor for creating Room from RoomDTO
-    public Room(RoomDTO roomDTO, Hotel hotel) {
-        this.number = roomDTO.getNumber();
-        this.price = roomDTO.getPrice();
+    @Builder
+    public Room(Long id, Hotel hotel, Integer number, Double price) {
+        this.id = id;
         this.hotel = hotel;
+        this.number = number;
+        this.price = price;
     }
 }

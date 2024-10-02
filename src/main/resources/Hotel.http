@@ -8,7 +8,7 @@ GET http://localhost:7777/api/hotel/1
 
 ###
 
-# Get a hotels rooms by it's id
+# Get a hotels rooms by it's id (not made )
 GET http://localhost:7777/api/hotel/1/room
 
 ###
@@ -18,36 +18,19 @@ POST http://localhost:7777/api/hotel
 Content-Type: application/json
 
 {
-  "name": "Hotel 2",
-  "address": "Address 2",
-  "rooms": [
-    {
-      "number": 101,
-      "price": 100
-    },
-    {
-      "number": 102,
-      "price": 150
-    }
-  ]
+  "name": "Hotel 3",
+  "address": "Address 3",
+  "rooms": []
 }
 
 ###
 
 # updat
-PUT http://localhost:7777/api/hotel/1
+PUT http://localhost:7777/api/hotel/2
 Content-Type: application/json
 
 {
-  "name": "SuperHotel 1",
-  "address": "Address 1",
-  "room": [
-    {
-      "hotelId": 1,
-      "number": 5,
-      "price": 1499
-    }
-  ]
+  "name": "SuperHotel 2"
 }
 ###
 

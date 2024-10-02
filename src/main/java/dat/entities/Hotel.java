@@ -3,6 +3,7 @@ package dat.entities;
 import dat.dto.HotelDTO;
 import dat.dto.RoomDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,20 +25,23 @@ public class Hotel {
 
     private String address;
 
-    @OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hotel",orphanRemoval = true)
     private Set<Room> rooms = new HashSet<>();
 
     // Constructor for creating Hotel from HotelDTO
-    public Hotel(HotelDTO hotelDTO) {
-        this.name = hotelDTO.getName();
-        this.address = hotelDTO.getAddress();
-        for (RoomDTO roomDTO : hotelDTO.getRooms()) {
-            addRoom(new Room(roomDTO, this)); // Use the addRoom method
-        }
-    }
+    @Builder
+    public Hotel(Long id, String name, String address, Set<Room> rooms) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
 
-    public void addRoom(Room room) {
-        rooms.add(room);
-        room.setHotel(this); // Set back-reference
+        if(rooms != null) {
+            this.rooms = new HashSet<>();
+            for(Room room : rooms) {
+                this.rooms.add(room);
+            }
+        } else {
+            this.rooms = new HashSet<>();
+        }
     }
 }

@@ -6,6 +6,8 @@ import dat.entities.Hotel;
 import dat.entities.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.RollbackException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -55,89 +57,60 @@ public class HotelDAO implements IDAO<HotelDTO> {
 
     @Override
     public HotelDTO create(HotelDTO hotelDTO) {
-        Hotel h = new Hotel(hotelDTO);
+        Hotel hotel = hotelDTO.getAsEntity();
 
-        try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin(); // Start transaction
-            em.persist(h);
-
-            if(h.getRooms() != null){
-                for(Room room: h.getRooms()){
-                    room.setHotel(h);
-                    em.persist(room);
-                }
-            }
-            em.getTransaction().commit(); // Commit transaction
-            return new HotelDTO(h);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null; // Handle transaction rollback
-        }
-    }
-
-    @Override
-    public HotelDTO update(HotelDTO hotelDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
-            // Find the existing hotel
-            Hotel foundHotel = em.find(Hotel.class, hotelDTO.getId());
+            Set<Room> roomEntities = new HashSet<>();
+            for (Room room : hotel.getRooms()) {
+                Room foundRoom = em.find(Room.class, room.getId()); //checking if room already exists
 
-            if (foundHotel != null) {
-                // Update the basic fields
-                if (hotelDTO.getName() != null) {
-                    foundHotel.setName(hotelDTO.getName());
-                }
-                if (hotelDTO.getAddress() != null) {
-                    foundHotel.setAddress(hotelDTO.getAddress());
-                }
-
-                // Update rooms
-                if (hotelDTO.getRooms() != null) {
-                    Set<Room> existingRooms = foundHotel.getRooms();
-
-                    // Use a helper Set to manage room updates and avoid orphaned entries
-                    Set<Room> updatedRooms = new HashSet<>();
-
-                    for (RoomDTO roomDTO : hotelDTO.getRooms()) {
-                        // Check if the room already exists by its ID
-                        Room existingRoom = existingRooms.stream()
-                                .filter(r -> r.getId().equals(roomDTO.getId()))
-                                .findFirst()
-                                .orElse(null);
-
-                        if (existingRoom != null) {
-                            // Update existing room
-                            existingRoom.setNumber(roomDTO.getNumber());
-                            existingRoom.setPrice(roomDTO.getPrice());
-                            updatedRooms.add(existingRoom);  // Keep track of updated rooms
-                        } else {
-                            // Add new room if it doesn't exist
-                            Room newRoom = new Room(roomDTO, foundHotel);  // Create Room from RoomDTO
-                            updatedRooms.add(newRoom);
-                        }
-                    }
-
-                    // Clear and update the hotel’s rooms to avoid orphans
-                    foundHotel.getRooms().clear();
-                    foundHotel.getRooms().addAll(updatedRooms);
+                if (foundRoom != null) {
+                    roomEntities.add(foundRoom);
+                } else {
+                    em.persist(room);
+                    roomEntities.add(room);
                 }
 
-                // Merge the updated hotel back into the persistence context
-                em.merge(foundHotel);
-
-                em.getTransaction().commit();
-                return new HotelDTO(foundHotel);  // Return the updated HotelDTO
-            } else {
-                em.getTransaction().rollback();  // Rollback if hotel not found
+                room.setHotel(hotel);
             }
+            hotel.setRooms(roomEntities);
+            em.persist(hotel);
+            em.getTransaction().commit();
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
+        return new HotelDTO(hotel);
     }
 
+    @Override
+    public HotelDTO update(HotelDTO hoteldto) {
+        Hotel hotel = hoteldto.getAsEntity();
+        try (EntityManager em = emf.createEntityManager()) {
+
+            Hotel existingHotel = em.find(Hotel.class, hotel.getId());
+            if (existingHotel == null) {
+                throw new EntityNotFoundException("Hotel not found");
+            }
+            em.getTransaction().begin();
+
+            if (hotel.getName() != null) {
+                existingHotel.setName(hotel.getName());
+            }
+            if (hotel.getAddress() != null) {
+                existingHotel.setAddress(hotel.getAddress());
+            }
+            if (hotel.getRooms() != null) {
+                existingHotel.getRooms().addAll(hotel.getRooms()); // add all new rooms
+            }
+
+            em.getTransaction().commit();
+            return new HotelDTO(existingHotel);
+
+        } catch (RollbackException e) {
+            throw new RollbackException(String.format("Unable to update hotel, with id: %d : %s", hoteldto.getId(), e.getMessage()));
+        }
+    }
 
 
     @Override

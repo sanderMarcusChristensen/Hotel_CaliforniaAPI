@@ -1,5 +1,5 @@
 #g Get all rooms
-GET http://localhost:7777/api/room/1
+GET http://localhost:7777/api/room
 
 ###
 
@@ -10,13 +10,13 @@ GET {{URL}}
 ###
 
 #create rooms
-POST http://localhost:7777/api/room
+POST {{URL}}
 Content-Type: application/json
 
 {
-  "hotelId": 1,
-  "number": 7,
-  "price": 1100
+  "hotelId": 2,
+  "number": 8,
+  "price": 1500
 }
 
 ###

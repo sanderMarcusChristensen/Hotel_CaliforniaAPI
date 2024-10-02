@@ -5,6 +5,8 @@ import dat.entities.Hotel;
 import dat.entities.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.RollbackException;
 
 import java.util.List;
 import java.util.Set;
@@ -50,59 +52,46 @@ public class RoomDAO implements IDAO<RoomDTO> {
 
     @Override
     public RoomDTO create(RoomDTO roomDTO) {
+        Room room = roomDTO.getRoomAsEntity();
+
         try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin(); // Start transaction
-
-            // Find the associated hotel using the hotelId from roomDTO
-            Hotel hotel = em.find(Hotel.class, roomDTO.getHotelId());
-
-            if (hotel == null) {
-                throw new IllegalArgumentException("Hotel with ID " + roomDTO.getHotelId() + " not found.");
+            em.getTransaction().begin();
+            Hotel foundHotel = em.find(Hotel.class, roomDTO.getHotelId());
+            if (foundHotel == null) {
+                throw new EntityNotFoundException("Hotel with ID " + roomDTO.getHotelId() + " does not exist.");
             }
 
-            // Create the Room entity with the hotel reference
-            Room room = new Room(roomDTO, hotel);
-
-            // Persist the room entity
+            room.setHotel(foundHotel);
             em.persist(room);
-            em.getTransaction().commit(); // Commit transaction
-
-            return new RoomDTO(room); // Return the newly created RoomDTO
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null; // Handle transaction rollback
+            em.getTransaction().commit();
         }
+        return new RoomDTO(room);
     }
-
 
     @Override
     public RoomDTO update(RoomDTO roomDTO) {
+        Room room = roomDTO.getRoomAsEntity();
+
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
-            Room foundRoom = em.find(Room.class, roomDTO.getId());
-            if (foundRoom != null) {
-
-                if (roomDTO.getNumber() > 0) { // Assuming 0 is not a valid room number
-                    foundRoom.setNumber(roomDTO.getNumber());
-                }
-                if (roomDTO.getPrice() > 0) { // Assuming 0 is not a valid price
-                    foundRoom.setPrice(roomDTO.getPrice());
-                }
-
-                if (roomDTO.getHotelId() != null) {
-                    Hotel hotel = em.find(Hotel.class, roomDTO.getHotelId());
-                    foundRoom.setHotel(hotel);
-                }
-
-                em.getTransaction().commit();
-                return new RoomDTO(foundRoom);
+            Room existingRoom = em.find(Room.class, room.getId());
+            if (existingRoom == null) {
+                throw new EntityNotFoundException("Room not found");
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (room.getNumber() != 0) {
+                existingRoom.setNumber(room.getNumber());
+            }
+            if (room.getPrice() != 0) {
+                existingRoom.setPrice(room.getPrice());
+            }
+            em.getTransaction().commit();
+            return new RoomDTO(existingRoom);
+
+        } catch (RollbackException e) {
+            throw new RollbackException(String.format("Unable to update room, with id : %d : %s", roomDTO.getId(), e.getMessage()));
         }
-        return null;
     }
 
 

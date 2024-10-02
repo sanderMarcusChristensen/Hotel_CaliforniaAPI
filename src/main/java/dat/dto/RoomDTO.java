@@ -1,10 +1,14 @@
 package dat.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.entities.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -12,15 +16,27 @@ import lombok.NoArgsConstructor;
 public class RoomDTO {
     private Long id;
     private Long hotelId; // to match the ID of the hotel
-    private int number;
-    private int price;
+    private Integer number;
+    private Double price;
 
-    // Convert from Entity to DTO
     public RoomDTO(Room room) {
         this.id = room.getId();
-        // // Take the ID from the hotel the room belongs to and set it on the room; set to null if no Hotel is linked.
-        this.hotelId = room.getHotel() != null ? room.getHotel().getId() : null;
+        this.hotelId = room.getHotel().getId();
         this.number = room.getNumber();
         this.price = room.getPrice();
     }
+
+    @JsonIgnore
+    public Room getRoomAsEntity() {
+        return Room.builder()
+                .id(id)
+                .number(number)
+                .price(price)
+                .build();
+    }
+
+  public static Set<RoomDTO> addARoomToTheList(Set<Room> rooms){
+        return rooms.stream().map(RoomDTO :: new).collect(Collectors.toSet());
+  }
+
 }
