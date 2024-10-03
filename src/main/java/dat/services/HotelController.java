@@ -6,12 +6,14 @@ import dat.dto.HotelDTO;
 
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public class HotelController implements Controller {
 
-    private final EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("hotel");
+    private final Logger log = LoggerFactory.getLogger(HotelController.class);
     private HotelDAO dao;
 
     public HotelController(HotelDAO dao){
