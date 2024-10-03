@@ -4,6 +4,7 @@ package dat.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dat.entities.Room;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class RoomDTO {
     private Long id;
@@ -19,6 +21,7 @@ public class RoomDTO {
     private Integer number;
     private Double price;
 
+    @Builder
     public RoomDTO(Room room) {
         this.id = room.getId();
         this.hotelId = room.getHotel().getId();
