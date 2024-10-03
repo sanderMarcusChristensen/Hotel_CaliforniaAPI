@@ -17,7 +17,7 @@ public class HotelRoutes {
     public EndpointGroup getHotelRoutes(){
         return () -> {
 
-            get("//{id}",hotelController :: getById);
+            get("/{id}",hotelController :: getById);
             get("/",hotelController :: getAll);
             post("/",hotelController :: create);
             put("/{id}",hotelController :: update);
