@@ -1,7 +1,7 @@
 package dat.services;
 
 import dat.config.HibernateConfig;
-import dat.daos.RoomDAO;
+import dat.dao.RoomDAO;
 import dat.dto.RoomDTO;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;

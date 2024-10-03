@@ -1,11 +1,9 @@
 package dat.services;
 
-import dat.config.HibernateConfig;
-import dat.daos.HotelDAO;
+import dat.dao.HotelDAO;
 import dat.dto.HotelDTO;
 
 import io.javalin.http.Context;
-import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

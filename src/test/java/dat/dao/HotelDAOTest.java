@@ -1,4 +1,4 @@
-package dat.daos;
+package dat.dao;
 
 import dat.config.HibernateConfig;
 import dat.dto.HotelDTO;
