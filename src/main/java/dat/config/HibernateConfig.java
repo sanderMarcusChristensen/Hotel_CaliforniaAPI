@@ -4,6 +4,7 @@ package dat.config;
 import dat.entities.Hotel;
 import dat.entities.Room;
 import jakarta.persistence.EntityManagerFactory;
+import org.eclipse.jetty.server.Authentication;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -22,11 +23,24 @@ public class HibernateConfig {
     private static EntityManagerFactory emf;
 
     private static EntityManagerFactory emfTest;
+    private static Boolean isTest;
 
     public static EntityManagerFactory getEntityManagerFactory(String DBName) {
-        if (emf == null)
-            emf = createEMF(false, DBName);
+        if (emf == null) {
+            if (isTest != null && isTest) { // Check if isTest is true
+                emf = createEMF(true, DBName);
+            } else {
+                emf = createEMF(false, DBName);
+            }
+        }
         return emf;
+    }
+    public static void setTest(Boolean test){
+        isTest = test;
+    }
+
+    public static Boolean isTest(){
+        return isTest;
     }
 
     public static EntityManagerFactory getEntityManagerFactoryForTest() {
@@ -39,7 +53,6 @@ public class HibernateConfig {
     private static void getAnnotationConfiguration(Configuration configuration) {
         configuration.addAnnotatedClass(Hotel.class);
         configuration.addAnnotatedClass(Room.class);
-
     }
 
     private static EntityManagerFactory createEMF(boolean forTest, String DBName) {
