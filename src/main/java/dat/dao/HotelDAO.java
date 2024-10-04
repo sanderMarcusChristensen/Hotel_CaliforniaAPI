@@ -21,6 +21,20 @@ public class HotelDAO implements IDAO<HotelDTO> {
         this.emf = emf;
     }
 
+    public HotelDTO addHotel(HotelDTO hotelDTO) {
+        try(EntityManager em = emf.createEntityManager()) {
+
+            Hotel hotel = hotelDTO.getAsEntity();
+            em.getTransaction().begin();
+            em.persist(hotel);
+            em.getTransaction().commit();
+            return new HotelDTO(hotel);
+        } catch (RollbackException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public Set<HotelDTO> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
@@ -127,5 +141,6 @@ public class HotelDAO implements IDAO<HotelDTO> {
             e.printStackTrace();
         }
     }
+
 }
 

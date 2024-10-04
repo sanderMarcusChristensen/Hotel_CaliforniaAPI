@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HotelRoutesTest {
 
-    private static Javalin app;
+    //private static Javalin app;
     private static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
     private static String BASE_URL = "http://localhost:7777/api/hotel";
     private static HotelDAO hotelDao = new HotelDAO(emf);
@@ -50,7 +50,7 @@ class HotelRoutesTest {
     @AfterEach
     void tearDown() {
         populator.cleanUpHotels(); // Clean up hotels after each test
-        //em.createNativeQuery("TRUNCATE TABLE hotels RESTART IDENTITY CASCADE").executeUpdate();
+
     }
 
     @AfterAll

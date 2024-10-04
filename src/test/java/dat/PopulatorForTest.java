@@ -38,25 +38,25 @@ public class PopulatorForTest {
         roomDTO.add(r3);
         roomDTO.add(r4);
 
-        h1 = new HotelDTO(1L, "Hotel 1", "Hotel address 1", roomDTO);
-        h2 = new HotelDTO(2L, "Hotel 2", "Hotel address 2", roomDTO);
-        h3 = new HotelDTO(3L, "Hotel 3", "Hotel address 3", roomDTO);
-        h4 = new HotelDTO(4L, "Hotel 4", "Hotel address 4", roomDTO);
+        h1 = new HotelDTO(null, "Hotel 1", "Hotel address 1", null);
+        h2 = new HotelDTO(null, "Hotel 2", "Hotel address 2", null);
+        h3 = new HotelDTO(null, "Hotel 3", "Hotel address 3", null);
+        h4 = new HotelDTO(null, "Hotel 4", "Hotel address 4", null);
 
-        hotelDTO = new ArrayList<>();
-        hotelDTO.add(h1);
-        hotelDTO.add(h2);
-        hotelDTO.add(h3);
-        hotelDTO.add(h4);
+        h1 = hotelDao.addHotel(h1);
+        h2 = hotelDao.addHotel(h2);
+        h3 = hotelDao.addHotel(h3);
+        h4 = hotelDao.addHotel(h4);
 
-        return hotelDTO;
+        return new ArrayList<>(List.of(h1,h2,h3,h4));
+
     }
 
     public void cleanUpHotels() {
         try (var em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.createQuery("DELETE FROM Hotel").executeUpdate();
-           // em.createNativeQuery("ALTER SEQUENCE hotel_id_seq RESTART WITH 1").executeUpdate();
+           em.createNativeQuery("ALTER SEQUENCE hotel_id_seq RESTART WITH 1").executeUpdate();
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
