@@ -1,7 +1,6 @@
-package dat.daos;
+package dat.dao;
 
 import dat.dto.HotelDTO;
-import dat.dto.RoomDTO;
 import dat.entities.Hotel;
 import dat.entities.Room;
 import jakarta.persistence.EntityManager;

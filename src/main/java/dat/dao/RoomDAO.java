@@ -1,4 +1,4 @@
-package dat.daos;
+package dat.dao;
 
 import dat.dto.RoomDTO;
 import dat.entities.Hotel;

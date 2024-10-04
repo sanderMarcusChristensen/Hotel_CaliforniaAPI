@@ -1,9 +1,7 @@
 package dat.routes;
 
 import dat.config.HibernateConfig;
-import dat.daos.HotelDAO;
-import dat.daos.RoomDAO;
-import dat.services.HotelController;
+import dat.dao.RoomDAO;
 import dat.services.RoomController;
 import io.javalin.apibuilder.EndpointGroup;
 import jakarta.persistence.EntityManagerFactory;

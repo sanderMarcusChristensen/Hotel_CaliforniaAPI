@@ -24,11 +24,24 @@ public class HibernateConfig {
     private static EntityManagerFactory emf;
 
     private static EntityManagerFactory emfTest;
+    private static Boolean isTest;
 
     public static EntityManagerFactory getEntityManagerFactory(String DBName) {
-        if (emf == null)
-            emf = createEMF(false, DBName);
+        if (emf == null) {
+            if (isTest != null && isTest) { // Check if isTest is true
+                emf = createEMF(true, DBName);
+            } else {
+                emf = createEMF(false, DBName);
+            }
+        }
         return emf;
+    }
+    public static void setTest(Boolean test){
+        isTest = test;
+    }
+
+    public static Boolean isTest(){
+        return isTest;
     }
 
     public static EntityManagerFactory getEntityManagerFactoryForTest() {

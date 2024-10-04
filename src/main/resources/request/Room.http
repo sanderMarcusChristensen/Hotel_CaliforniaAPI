@@ -10,13 +10,13 @@ GET {{URL}}
 ###
 
 #create rooms
-POST {{URL}}
+POST {{STD}}
 Content-Type: application/json
 
 {
-  "hotelId": 2,
-  "number": 8,
-  "price": 1500
+  "hotelId": 4,
+  "number": 2,
+  "price": 999
 }
 
 ###
