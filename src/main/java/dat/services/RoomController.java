@@ -10,7 +10,6 @@ import java.util.Set;
 
 public class RoomController implements Controller {
 
-    EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("hotel");
     private final RoomDAO dao;
 
     public RoomController(RoomDAO dao){

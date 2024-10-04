@@ -18,8 +18,8 @@ POST http://localhost:7777/api/hotel
 Content-Type: application/json
 
 {
-  "name": "Hotel 3",
-  "address": "Address 3",
+  "name": "Hotel 6",
+  "address": "Address 6",
   "rooms": []
 }
 
