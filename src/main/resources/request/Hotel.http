@@ -18,8 +18,8 @@ POST http://localhost:7777/api/hotel
 Content-Type: application/json
 
 {
-  "name": "Hotel 6",
-  "address": "Address 6",
+  "name": "Hotel 7",
+  "address": "Address 8",
   "rooms": []
 }
 
@@ -35,4 +35,4 @@ Content-Type: application/json
 ###
 
 #deleting a hotel by id
-DELETE http://localhost:7777/api/hotel/1
+DELETE http://localhost:7777/api/hotel/3
