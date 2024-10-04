@@ -81,6 +81,7 @@ public class HotelDAO implements IDAO<HotelDTO> {
 
         }
         return new HotelDTO(hotel);
+
     }
 
     @Override

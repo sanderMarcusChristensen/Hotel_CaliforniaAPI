@@ -74,9 +74,8 @@ class HotelRoutesTest {
     }
     @Test
     void testGetAlleTheHotels() {
-        // Ensure that the correct hotels are populated
-        Set<HotelDTO> hotelsInDb = hotelDao.getAll(); // Assuming this method fetches all hotels
-        assertEquals(4, hotelsInDb.size()); // Ensure correct number of hotels
+        Set<HotelDTO> hotelsInDb = hotelDao.getAll();
+        assertEquals(4, hotelsInDb.size());
 
         HotelDTO[] hotelsArray =
                 given()
@@ -88,7 +87,7 @@ class HotelRoutesTest {
                         .extract()
                         .as(HotelDTO[].class); // Extract response as HotelDTO array
 
-        assertThat(hotelsArray, arrayContainingInAnyOrder(h1, h2, h3,h4)); // Assert that the fetched hotels are the same
+        assertThat(hotelsArray, arrayContainingInAnyOrder(h1, h2, h3, h4)); // Assert that the fetched hotels are the same
     }
     @Test
     void testCreateHotel() {
