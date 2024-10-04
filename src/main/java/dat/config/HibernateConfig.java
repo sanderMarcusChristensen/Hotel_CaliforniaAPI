@@ -3,6 +3,8 @@ package dat.config;
 
 import dat.entities.Hotel;
 import dat.entities.Room;
+import dat.security.entities.Role;
+import dat.security.entities.User;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -39,6 +41,9 @@ public class HibernateConfig {
     private static void getAnnotationConfiguration(Configuration configuration) {
         configuration.addAnnotatedClass(Hotel.class);
         configuration.addAnnotatedClass(Room.class);
+        configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Role.class);
+
 
     }
 
