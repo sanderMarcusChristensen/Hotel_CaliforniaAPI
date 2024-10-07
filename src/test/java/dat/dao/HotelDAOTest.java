@@ -6,10 +6,7 @@ import dat.dto.RoomDTO;
 import dat.entities.Hotel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -86,6 +83,7 @@ public class HotelDAOTest {
     }
 
     @Test
+    @DisplayName("Get a set of all the hotels in the database")
     void getAll() {
         int actualSize = hotelDTO.size();
         Set<HotelDTO> retrievedHotels = dao.getAll();
@@ -93,6 +91,7 @@ public class HotelDAOTest {
     }
 
     @Test
+    @DisplayName("Get a hotel by it's id")
     void getById() {
         Long expectedId = h1.getId();
         HotelDTO retrievedHotel = dao.getById(expectedId);
@@ -100,6 +99,7 @@ public class HotelDAOTest {
     }
 
     @Test
+    @DisplayName("Create a hotel and persist it in the database")
     void create() {
         // Create a new Hotel
         HotelDTO newHotel = new HotelDTO(null, "New Hotel", "New Address", new HashSet<>());
@@ -111,6 +111,7 @@ public class HotelDAOTest {
     }
 
     @Test
+    @DisplayName("Update a Hotel")
     void update() {
         // Update an existing hotel
         Long hotelId = h2.getId();
@@ -125,6 +126,7 @@ public class HotelDAOTest {
     }
 
     @Test
+    @DisplayName("Delete a hotel ")
     void delete() {
 
         int ex = 3;

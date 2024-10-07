@@ -27,10 +27,10 @@ public class PopulatorForTest {
 
     public List<HotelDTO> populateHotels() {
 
-        r1 = new RoomDTO(1L, 1L, 22, 2000.0);
-        r2 = new RoomDTO(2L, 2L, 24, 1800.0);
-        r3 = new RoomDTO(3L, 3L, 26, 2500.0);
-        r4 = new RoomDTO(4L, 4L, 18, 2300.0);
+        r1 = new RoomDTO(null, 1L, 22, 2000.0);
+        r2 = new RoomDTO(null, 2L, 24, 1800.0);
+        r3 = new RoomDTO(null, 3L, 26, 2500.0);
+        r4 = new RoomDTO(null, 4L, 18, 2300.0);
 
         roomDTO = new HashSet<>();
         roomDTO.add(r1);

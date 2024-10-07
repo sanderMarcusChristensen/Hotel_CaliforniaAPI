@@ -49,7 +49,7 @@ class HotelRoutesTest {
 
     @AfterEach
     void tearDown() {
-        populator.cleanUpHotels(); // Clean up hotels after each test
+        //populator.cleanUpHotels(); // Clean up hotels after each test
 
     }
 
