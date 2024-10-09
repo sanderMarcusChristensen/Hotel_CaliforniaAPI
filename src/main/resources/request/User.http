@@ -1,0 +1,23 @@
+
+
+# Register a user
+POST http://localhost:7777/api/auth/register
+
+{
+"username": "admin"
+"password": "test123"
+
+}
+
+###
+
+#Log into a user acc (Should return a token, use "jwt.io" to see what the token have and dont have)
+POST localhost:7777/api/acth/login
+
+{
+"username": "admin"
+"password": "test123"
+
+}
+
+

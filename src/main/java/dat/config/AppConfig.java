@@ -25,7 +25,7 @@ public class AppConfig {
 
     private static final Routes routes = new Routes();
     private static final SecurityRoutes securityRoutes = new SecurityRoutes();
-    private static ObjectMapper jsonMapper = new Utils().getObjectMapper();
+    private static final ObjectMapper jsonMapper = new Utils().getObjectMapper();
 
     private static final ExceptionController exceptionController =new ExceptionController();
 

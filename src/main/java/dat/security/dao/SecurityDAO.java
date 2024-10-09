@@ -1,4 +1,5 @@
 package dat.security.dao;
+
 import dat.exceptions.ApiException;
 import dat.exceptions.ValidationException;
 import dat.security.entities.Role;
@@ -42,7 +43,7 @@ public class SecurityDAO implements ISecurityDAO {
     }
 
     @Override
-    public User createUser(String username, String password) {
+    public User createUser(String username, String password) throws EntityExistsException {
         try (EntityManager em = getEntityManager()) {
             User userEntity = em.find(User.class, username);
             if (userEntity != null)
@@ -57,9 +58,6 @@ public class SecurityDAO implements ISecurityDAO {
             em.persist(userEntity);
             em.getTransaction().commit();
             return userEntity;
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new ApiException(400, e.getMessage());
         }
     }
 }
